@@ -5,7 +5,7 @@ package game;
  */
 public class Die {
     private int faceValue; // Initial face value of the die.
-    private int sides; //  The sides of the die.
+    private final int SIDES; //  The sides of the die.
 
     /**
      * Constructor of the Die class.
@@ -15,7 +15,7 @@ public class Die {
      * game.
      */
     public Die(int sides) {
-        this.sides = sides;
+        this.SIDES = sides;
         roll();
     }
 
@@ -24,7 +24,7 @@ public class Die {
      * distribution.
      */
     public void roll() {
-        faceValue = (int) (Math.random() * sides) + 1;
+        faceValue = (int) (Math.random() * SIDES) + 1;
     }
 
     /**
@@ -35,6 +35,6 @@ public class Die {
     }
 
     public String toString(){
-        return "facevalue: " + faceValue + ", sides: " + sides;
+        return "facevalue: " + faceValue + ", sides: " + SIDES;
     }
 }

@@ -1,32 +1,32 @@
 package game;
 
 public class Player {
-    private int id;
-    private Account account;
+    private final int ID;
+    private final Account ACCOUNT;
 
     public Player(int initialBalance, int ID) {
-        this.account = new Account(initialBalance);
-        this.id = ID;
+        this.ACCOUNT = new Account(initialBalance);
+        this.ID = ID;
     }
 
     public int getID(){
-        return id;
+        return ID;
     }
 
     public int getBalance(){
-        return account.getBalance();
+        return ACCOUNT.getBalance();
     }
 
     public boolean withdraw(int amount) {
-        return account.withdraw(amount);
+        return ACCOUNT.withdraw(amount);
     }
 
     public boolean deposit(int amount) {
-        return account.deposit(amount);
+        return ACCOUNT.deposit(amount);
     }
 
     public String toString() {
-        return "Player-ID: " + id + System.lineSeparator() +
-                "Player account information: " + account;
+        return "Player-ID: " + ID + System.lineSeparator() +
+                "Player account information: " + ACCOUNT;
     }
 }
