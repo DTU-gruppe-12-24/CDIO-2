@@ -1,3 +1,5 @@
+package game;
+
 public class Player {
     private int id;
     private Account account;
@@ -24,7 +26,7 @@ public class Player {
     }
 
     public String toString() {
-        return "Player-ID: " + id + "\n" +
+        return "Player-ID: " + id + System.lineSeparator() +
                 "Player account information: " + account;
     }
 }
