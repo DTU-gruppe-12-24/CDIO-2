@@ -15,6 +15,7 @@ import game.RaffleCup;
  * The results are printed to the terminal.
  */
 public class Test {
+    // Entry point for test program
     public static void main(String[] args) {
         System.out.println("RaffleCup tests:");
         raffleCupTests();
@@ -22,18 +23,23 @@ public class Test {
         accountTests();
     }
 
+    // Run tests for the Account class
     public static void accountTests() {
-        boolean success = true;
-        Account account = new Account(1000);
+        boolean success = true; // Boolean to keep track of account test success
+        Account account = new Account(1000); // Account to use for tests
         System.out.println("Initial account: " + account);
+
+        // Test if withdrawing more than balance is allowed.
         account.withdraw(2000);
         System.out.println("Account after withdrawing 2000: " + account);
         if(account.getBalance() < 0) success = false;
+
+        // Test if depositing a negative amount that would bring the balance below 0 is allowed.
         account.deposit(-2000);
         System.out.println("Account after depositing -2000: " + account);
         if(account.getBalance() < 0) success = false;
 
-        // Output of test
+        // Display output of the Account test.
         if(success) {
             System.out.println("Account test: SUCCESS!" + System.lineSeparator() + "The account balance can never become negative.");
         } else {
@@ -41,20 +47,21 @@ public class Test {
         }
     }
 
+    // Run tests for the RaffleCup class
     public static void raffleCupTests() {
         int[] countArrFaceValue = new int[6]; // Array to keep track of the face value count.
         long maxTime = Long.MIN_VALUE; // To keep track of the max time experienced for each roll.
-
-        RaffleCup cup = new RaffleCup(6);
+        RaffleCup cup = new RaffleCup(6); // RaffleCup to use for tests
 
         for (int i = 0; i < 1000; i++) {
             /*
-              Start measuring execution time as we want to see how long it takes from rolling to
-              seeing/looking up the face value of the dice.
-              Source: https://www.geeksforgeeks.org/measure-time-taken-function-java/; accessed: 2024/10/22.
+                Start measuring execution time as we want to see how long it takes from rolling to
+                seeing/looking up the face value of the dice.
+                Source: https://www.geeksforgeeks.org/measure-time-taken-function-java/; accessed: 2024/10/22.
              */
             long startTime = System.nanoTime();
 
+            // Roll the dice in the RaffleCup, and retrieve their values.
             cup.roll();
             cup.getValue(0);
             cup.getValue(1);
@@ -63,8 +70,7 @@ public class Test {
             long endTime = System.nanoTime();
 
             // Calculate the execution time in nanoseconds.
-            long executionTime
-                    = (endTime - startTime);
+            long executionTime = (endTime - startTime);
 
             // Update max if higher time observed.
             if (executionTime > maxTime) {
@@ -75,7 +81,7 @@ public class Test {
             countArrFaceValue[cup.getValue(0) - 1]++;
         }
 
-        // Output of our tests:
+        // Output of the RaffleCup tests:
         // Count of the different face values.
         System.out.println("The count of the different face values of die 1 of the raffle cup:");
         for (int i = 0; i < countArrFaceValue.length; i++) {
@@ -84,6 +90,6 @@ public class Test {
         System.out.println();
 
         // The max time we've measured from rolling the dice to having read the face value of all dice.
-        System.out.println("The max time we've measured: " + maxTime + " nanoseconds.");
+        System.out.println("The max time measured for rolling the dice: " + maxTime + " nanoseconds.");
     }
 }
