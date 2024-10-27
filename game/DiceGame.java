@@ -12,34 +12,41 @@ class Program {
 }
 
 public class DiceGame {
-    private Player[] players;
-    private RaffleCup raffleCup;
+    private Player[] players;   // Array to store the players
+    private RaffleCup raffleCup;   
     private java.util.Scanner scanner;
 
+    /**
+     * Constructor for the DiceGame class.
+     * Initializes the scanner, players array, and raffle cup with 6-sided dice.
+     */
     public DiceGame() {
         scanner = new java.util.Scanner(System.in);
 
         players = new Player[2];
         
-        raffleCup = new RaffleCup(6);
+        raffleCup = new RaffleCup(6); // Sets the sides of die to 6, could be any given number.
     }
     
     public void play() {
         
-        // Not in constructor in case game would be replayed
-        players[0] = new Player(1000, 1);
+        // Not in constructor in case game would be replayed, both players start with 1000 currency.
+        players[0] = new Player(1000, 1); 
         players[1] = new Player(1000, 2);
 
         int currentPlayerIndex = (int) (Math.random() * 2);
         Player currentPlayer = players[currentPlayerIndex];
 
         boolean playing = true;
+        // Playing loop runs each turn.
         while(playing) {
             
+            // Prompts player to roll the dice. 
             System.out.println(System.lineSeparator() + "Player " + currentPlayer.getID() + " press enter to roll the dice.");
             scanner.nextLine();
             raffleCup.roll();
 
+            // Gets the values of the newly rolled dice. Then prints them to give the player feedback.
             int sum = raffleCup.getSum();
             int value1 = raffleCup.getValue(0);
             int value2 = raffleCup.getValue(1);
@@ -47,6 +54,7 @@ public class DiceGame {
             System.out.println("Die 2 value: " + value2);
             System.out.println("Total value: " + sum);
 
+            // Switch statement which decides how much currency the player should get. 
             int change = switch (sum) {
                 case 2 -> 250; 
                 case 3 -> -100;
@@ -56,11 +64,12 @@ public class DiceGame {
                 case 7 -> 0;
                 case 8 -> -70;
                 case 9 -> 60;
-                case 10 -> -80; //werewall
+                case 10 -> -80; 
                 case 11 -> -50;
                 default -> 650;
             };
 
+            // Switch statement which decides what should be printed for the player:
             String translateableOutput = switch (sum) {
                 case 2 -> "You ascend the ancient tower, discovering hidden treasures worth 250 coins.";
                 case 3 -> "Exploring the crater proves disastrous, costing you 100 coins in lost supplies.";
@@ -73,27 +82,30 @@ public class DiceGame {
                 case 10 -> "Encountering the Werewall sends you fleeing, costing you 80 coins, but you gain an extra turn!";
                 case 11 -> "You stumble into a treacherous pit, losing 50 coins in the fall.";
                 case 12 -> "You've uncovered a legendary goldmine, bringing you 650 coins and immense wealth!";
-                default -> "Invalid number. Please select a valid option.";
+                default -> "Invalid number. Please select a valid option."; // Should never trigger in gameplay
             };
 
+            // Prints the story for the player.
             System.out.println("Player " + currentPlayer.getID() + ", " +  translateableOutput);
 
-            
+            // Changes player score according to amount decided in earlier switch statement.
             if (change > 0) currentPlayer.deposit(change);
             else if (change < 0) {
                 if (!currentPlayer.withdraw(-change)) currentPlayer.withdraw(currentPlayer.getBalance());
             }
 
-
+            // Checks if current player's balance is above 3000, and congratulates the player if it is.
             if (currentPlayer.getBalance() > 3000) {
                 playing = false;
                 System.out.println("You won the game, player " + currentPlayer.getID() + ". Congratulations!!!" 
                 + System.lineSeparator() + "The final scores are as follows:");
             }
 
+            // Prints out the players balances.
             System.out.println("Player 1 balance: " + players[0].getBalance());
             System.out.println("Player 2 balance: " + players[1].getBalance());
 
+            // Changes player turn unless they landed on the warewall tile.
             if (sum == 10) {
                 System.out.println("Because you landed on the werewall tile, you get an extra turn.");
             } else {
@@ -104,6 +116,7 @@ public class DiceGame {
             }
         }
         
+        // Do you want to replay system.
         boolean decided = false;
         while(!decided) {
             System.out.println("Do you want to play again? (yes/no)");
